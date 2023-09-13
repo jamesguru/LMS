@@ -8,6 +8,7 @@ import ejs from "ejs";
 import path from 'path';
 import sendMail from '../utils/sendMail';
 import { sendToken } from '../utils/jwt';
+import { Console } from 'console';
 // Register user
 
 interface IRegistrationBody {
@@ -140,17 +141,20 @@ export const loginUser = CatchAsyncError(async(req:Request,res:Response,next:Nex
 
     try {
         const {email,password} = req.body as ILoginRequest;
+        
         if(!email || !password){
             return next(new ErrorHandler("Please enter email and password",400));
         }
 
         const user = await userModel.findOne({email}).select("+password");
+        
         if(!user){
             return next(new ErrorHandler("Invalid email or password",400));
 
         }
 
         const isPasswordMatch = await user.comparePassword(password);
+        
         if(!isPasswordMatch){
             return next(new ErrorHandler("Invalid email or password",400))
         }

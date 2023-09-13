@@ -18,7 +18,7 @@ export interface IUser extends Document {
     courses: Array<{ courseId: string }>;
     comparePassword: (password: string) => Promise<boolean>,
     SignAccessToken:() => string;
-    SigneRefreshToken:() => string;
+    SignRefreshToken:() => string;
 
 }
 
@@ -87,11 +87,11 @@ userSchema.pre<IUser>('save', async function (next) {
 
 // sign access token
 userSchema.methods.SignAccessToken=function(){
-    return jwt.sign({id:this._id},process.env.ACTIVATION_TOKEN || '')
+    return jwt.sign({id:this._id},process.env.ACTIVATION_TOKEN || '6If6k+YIEkQ8#xK9&;2"&h7@o£.Ki,[2^GY*!gHWKYv85.c\#e')
 }
 // sign refresh token
-userSchema.methods.SigneRefreshToken =function(){
-    return jwt.sign({id:this._id},process.env.REFRESH_TOKEN || '')
+userSchema.methods.SignRefreshToken =function(){
+    return jwt.sign({id:this._id},process.env.REFRESH_TOKEN || 'CYU$V;0s}Ozv/(j}qhlLG~46.2L"=tOM^O[UNyzyt8#E}3E4£v')
 }
  
 // compare password
