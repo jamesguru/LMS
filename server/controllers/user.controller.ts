@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, response } from 'express';
 import userModel, { IUser } from '../models/user.model';
 import ErrorHandler from '../utils/ErrorHandler';
 import { CatchAsyncError } from '../middleware/catchAsyncErrors';
@@ -10,6 +10,7 @@ import path from 'path';
 import sendMail from '../utils/sendMail';
 import { accessTokenOptions, refreshTokenOptions, sendToken } from '../utils/jwt';
 import { Console } from 'console';
+import { getUserById } from '../services/user.services';
 // Register user
 
 interface IRegistrationBody {
@@ -234,3 +235,19 @@ export const updateAccessToken = CatchAsyncError(async(req:Request,res:Response,
         return new ErrorHandler(error.message,400)
     }
 })
+
+// get user info
+
+export const getUserInfo = CatchAsyncError(async(req:Request,res:Response,next:NextFunction)=>{
+
+    try {
+
+        const userId = req.user?.id;
+        getUserById(userId,res);
+        
+    } catch (error:any) {
+        
+        return next(new ErrorHandler(error.message,400));
+    }
+
+} )
