@@ -17,8 +17,8 @@ export interface IUser extends Document {
     isVerified: boolean;
     courses: Array<{ courseId: string }>;
     comparePassword: (password: string) => Promise<boolean>,
-    SignAccessToken:() => string;
-    SignRefreshToken:() => string;
+    SignAccessToken: () => string;
+    SignRefreshToken: () => string;
 
 }
 
@@ -46,7 +46,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
 
     password: {
         type: String,
-        required: [true, "Please enter your password"],
+
         minlength: [6, "Password must be at least 6 characters"],
         select: false,
     },
@@ -86,18 +86,18 @@ userSchema.pre<IUser>('save', async function (next) {
 })
 
 // sign access token
-userSchema.methods.SignAccessToken=function(){
-    return jwt.sign({id:this._id},process.env.ACTIVATION_TOKEN || '6If6k+YIEkQ8#xK9&;2"&h7@o£.Ki,[2^GY*!gHWKYv85.c\#e',{
-        expiresIn:"5m"
+userSchema.methods.SignAccessToken = function () {
+    return jwt.sign({ id: this._id }, process.env.ACTIVATION_TOKEN || '6If6k+YIEkQ8#xK9&;2"&h7@o£.Ki,[2^GY*!gHWKYv85.c\#e', {
+        expiresIn: "5m"
     })
 }
 // sign refresh token
-userSchema.methods.SignRefreshToken =function(){
-    return jwt.sign({id:this._id},process.env.REFRESH_TOKEN || 'CYU$V;0s}Ozv/(j}qhlLG~46.2L"=tOM^O[UNyzyt8#E}3E4£v',{
-        expiresIn:"3d"
+userSchema.methods.SignRefreshToken = function () {
+    return jwt.sign({ id: this._id }, process.env.REFRESH_TOKEN || 'CYU$V;0s}Ozv/(j}qhlLG~46.2L"=tOM^O[UNyzyt8#E}3E4£v', {
+        expiresIn: "3d"
     })
 }
- 
+
 // compare password
 
 userSchema.methods.comparePassword = async function (enteredPassword: string): Promise<boolean> {
