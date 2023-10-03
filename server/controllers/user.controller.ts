@@ -9,9 +9,9 @@ import ejs from "ejs";
 import path from 'path';
 import sendMail from '../utils/sendMail';
 import { accessTokenOptions, refreshTokenOptions, sendToken } from '../utils/jwt';
-import { Console } from 'console';
 import { getUserById } from '../services/user.services';
 import cloudinary from "cloudinary";
+
 // Register user
 
 interface IRegistrationBody {
